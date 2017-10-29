@@ -29,12 +29,17 @@ class BookViewController : UIViewController {
   @IBOutlet weak var bookAuthorsLabel: UILabel!
   @IBOutlet weak var stepper: UIStepper!
   @IBOutlet weak var statView: StatView!
-  @IBOutlet weak var topView: UIView!
+ // @IBOutlet weak var topView: UIView!
   @IBOutlet weak var doneButton: UIButton!
   
   var book: Book?
   
     override func viewWillAppear(_ animated: Bool) {
+        
+        doneButton.layer.cornerRadius = doneButton.bounds.height / 2
+        bookImageView.layer.borderColor = UIColor.black.cgColor
+        bookImageView.layer.borderWidth =  1.0
+        
         guard let book = book else { return }
         bookImageView.image = book.cover
         bookTitleLabel.text = book.title
@@ -45,11 +50,11 @@ class BookViewController : UIViewController {
         stepper.value = Double(book.chaptersRead)
         stepper.maximumValue = Double(book.chaptersTotal)
     }
+    @IBAction func doneBtnClicked(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
     
-    
-
-  
-  @IBAction func stepperValueDidChange(stepper: UIStepper) {
-    statView.curValue = CGFloat(stepper.value)
-  }
+    @IBAction func steperValueDidChange(_ sender: Any) {
+        statView.curValue = CGFloat(stepper.value)
+    }
 }

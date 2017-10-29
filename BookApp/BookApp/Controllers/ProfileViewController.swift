@@ -34,6 +34,8 @@ class ProfileViewController: UIViewController {
  
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        followButton.layer.cornerRadius = followButton.frame.height / 2
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

@@ -28,8 +28,30 @@ class AvatarView: UIView {
   let margin: CGFloat = 30.0
   let labelName = UILabel()
   let imageView = UIImageView()
-  
-  
+    
+    let layerAvatar = CAShapeLayer()
+    
+    let layerGradiendt = CAGradientLayer()
+    
+    @IBInspectable var strokeColor: UIColor = UIColor.black{
+        didSet{
+            configure()
+        }
+    }
+    
+    @IBInspectable
+    var startColor: UIColor = UIColor.white {
+        didSet{
+            configure()
+        }
+    }
+    
+    @IBInspectable
+    var endColor: UIColor = UIColor.black{
+        didSet{
+            configure()
+        }
+    }
   @IBInspectable var imageAvatar: UIImage? {
     didSet {
       configure()
@@ -54,43 +76,51 @@ class AvatarView: UIView {
 
   func setup() {
     
-    // Setup image view
-    imageView.contentMode = .scaleAspectFit
-    imageView.translatesAutoresizingMaskIntoConstraints = false
-    addSubview(imageView)
+    layer.addSublayer(layerGradiendt)
+
+    layerAvatar.fillColor = nil
+    layerAvatar.lineWidth = 10.0
+    layerAvatar.contentsGravity = kCAGravityResizeAspectFill
+    layer.addSublayer(layerAvatar)
     
     // Setup label
     labelName.font = UIFont(name: "AvenirNext-Bold", size: 28.0)
     labelName.textColor = UIColor.black
     labelName.translatesAutoresizingMaskIntoConstraints = false
     addSubview(labelName)
-    
-//    labelName.setContentCompressionResistancePriority(1000, for: .Vertical)
-    
     labelName.setContentCompressionResistancePriority(UILayoutPriority(rawValue: 1000), for: .vertical)
     
     // Add constraints for label
     let labelCenterX = labelName.centerXAnchor.constraint(equalTo: self.centerXAnchor)
     let labelBottom = labelName.bottomAnchor.constraint(equalTo: self.bottomAnchor)
     NSLayoutConstraint.activate([labelCenterX, labelBottom])
-    
-    // Add constraints for imageView
-    let imageViewCenterX = imageView.centerXAnchor.constraint(equalTo: self.centerXAnchor)
-    let imageViewTop = imageView.topAnchor.constraint(equalTo: self.topAnchor, constant: margin)
-    let imageViewBottom = imageView.bottomAnchor.constraint(equalTo: labelName.topAnchor, constant: -margin)
-    let imageViewWidth = imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor)
-    NSLayoutConstraint.activate([imageViewCenterX, imageViewTop, imageViewBottom, imageViewWidth])
   }
   
   func configure() {
-
     // Configure image view and label
-    imageView.image = imageAvatar
+    layerAvatar.contents = imageAvatar?.cgImage
+    layerAvatar.strokeColor = strokeColor.cgColor
     labelName.text = avatarName
+    
+    // Configure Gradient
+    layerGradiendt.colors = [startColor.cgColor , endColor.cgColor]
+    layerGradiendt.startPoint = CGPoint(x: 0.5, y: 0)
+    layerGradiendt.endPoint = CGPoint(x: 0.5, y: 1)
   }
   
   override func layoutSubviews() {
     super.layoutSubviews()
+    
+    let layerAvatarHeight = self.bounds.height - margin - labelName.bounds.height
+    layerAvatar.frame = CGRect(x: self.bounds.width / 2 - layerAvatarHeight/2, y: margin, width: layerAvatarHeight, height: layerAvatarHeight)
+    let maskLayer = CAShapeLayer()
+    maskLayer.path = UIBezierPath(ovalIn: layerAvatar.bounds).cgPath
+    layerAvatar.mask = maskLayer
+    layerAvatar.path = maskLayer.path
+    
+    
+    // Gradient
+    layerGradiendt.frame = CGRect(x: 0, y: 0, width: self.bounds.width, height: layerAvatar.frame.midY)
   }
   
 }

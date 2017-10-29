@@ -31,10 +31,27 @@ class StatView: UIView {
   var range: CGFloat = 10
   var curValue: CGFloat = 0 {
     didSet {
-      configure()
+      animate()
     }
   }
   let margin: CGFloat = 10
+    
+    let bgLayer = CAShapeLayer()
+    let fgLayer = CAShapeLayer()
+    
+    @IBInspectable
+    var bgColor: UIColor = UIColor.gray{
+        didSet{
+            configure()
+        }
+    }
+    
+    @IBInspectable
+    var fgColor: UIColor = UIColor.white{
+        didSet{
+            configure()
+        }
+    }
   
   override func awakeFromNib() {
     super.awakeFromNib()
@@ -49,6 +66,19 @@ class StatView: UIView {
   }
   
   func setup() {
+    
+    
+    bgLayer.lineWidth = 20.0
+    bgLayer.fillColor = nil
+    bgLayer.strokeEnd = 1
+    layer.addSublayer(bgLayer)
+    
+    fgLayer.lineWidth = 20.0
+    fgLayer.fillColor = nil
+    fgLayer.strokeEnd = 0
+    layer.addSublayer(fgLayer)
+    
+   // percentLabel.text = String(format: "%.0f/%.0f", curValue, range)
     
     // Setup percent label
     percentLabel.font = UIFont.systemFont(ofSize: 26)
@@ -75,11 +105,57 @@ class StatView: UIView {
   }
   
   func configure() {
-    percentLabel.text = String(format: "%.0f/%.0f", curValue, range)
+    
+    bgLayer.strokeColor = bgColor.cgColor
+    fgLayer.strokeColor = fgColor.cgColor
+    
   }
   
   override func layoutSubviews() {
     super.layoutSubviews()
+    setupLayer(shapeLayer: bgLayer)
+    setupLayer(shapeLayer: fgLayer)
   }
+    
+    private func setupLayer(shapeLayer: CAShapeLayer){
+        shapeLayer.frame = bounds
+        let startAngle = DegreesToRadians(value: 135)
+        let endAngle = DegreesToRadians(value: 45)
+        let center = percentLabel.center
+        let radius = self.bounds.width * 0.3
+        let path = UIBezierPath(arcCenter: center, radius: radius, startAngle: startAngle, endAngle: endAngle, clockwise: true)
+        shapeLayer.path = path.cgPath
+    }
+    
+    private func animate(){
+        percentLabel.text =  String(format: "%.0f/%.0f", curValue, range)
+        var fromValue = fgLayer.strokeEnd
+        let toValue = curValue/range
+        if let presentationLayer = fgLayer.presentation() {
+            fromValue = presentationLayer.strokeEnd
+        }
+        let percentChange = abs(fromValue - toValue)
+        
+        
+        // 1
+        let animation = CABasicAnimation(keyPath: "strokeEnd")
+        animation.fromValue = fromValue
+        animation.toValue = toValue
+        
+        //2
+        animation.duration = CFTimeInterval(percentChange * 4)
+        
+        //3
+        fgLayer.removeAnimation(forKey: "stroke")
+        fgLayer.add(animation, forKey: "stroke")
+        
+        //4
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
+        fgLayer.strokeEnd = toValue
+        CATransaction.commit()
+        
+        
+    }
   
 }

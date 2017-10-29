@@ -20,6 +20,7 @@
 		222E5C7D1FA5B29A00D2B731 /* SizingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 222E5C7B1FA5B29A00D2B731 /* SizingLabel.swift */; };
 		222E5C811FA5B32700D2B731 /* BookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 222E5C7F1FA5B32700D2B731 /* BookViewController.swift */; };
 		222E5C821FA5B32700D2B731 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 222E5C801FA5B32700D2B731 /* ProfileViewController.swift */; };
+		222E5C851FA5FD4200D2B731 /* RoundedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 222E5C841FA5FD4200D2B731 /* RoundedView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		222E5C7B1FA5B29A00D2B731 /* SizingLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SizingLabel.swift; sourceTree = "<group>"; };
 		222E5C7F1FA5B32700D2B731 /* BookViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookViewController.swift; sourceTree = "<group>"; };
 		222E5C801FA5B32700D2B731 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		222E5C841FA5FD4200D2B731 /* RoundedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +100,7 @@
 				222E5C711FA5AFFF00D2B731 /* AvatarView.swift */,
 				222E5C721FA5AFFF00D2B731 /* BookCell.swift */,
 				222E5C731FA5AFFF00D2B731 /* StatView.swift */,
+				222E5C841FA5FD4200D2B731 /* RoundedView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -210,6 +213,7 @@
 				222E5C741FA5AFFF00D2B731 /* AvatarView.swift in Sources */,
 				222E5C811FA5B32700D2B731 /* BookViewController.swift in Sources */,
 				222E5C5C1FA5AE3000D2B731 /* AppDelegate.swift in Sources */,
+				222E5C851FA5FD4200D2B731 /* RoundedView.swift in Sources */,
 				222E5C7C1FA5B29A00D2B731 /* DegreesToRadians.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
